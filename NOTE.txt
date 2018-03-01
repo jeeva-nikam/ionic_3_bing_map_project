@@ -1,0 +1,8 @@
+lINK FROM THE APP DOWNLOADED - "https://www.djamware.com/post/59fc9da680aca7739224ee20/ionic-3-and-angular-5-mobile-app-example"
+
+TO RUN APP - "ionic serve -l"
+
+MAKE APK - "ionic cordova build android --prod" NOTE - use "--release" flag to release, as now we can not sign it so do not use this flag.
+
+DEPLOYING - "https://ionicframework.com/docs/intro/deploying/"
+

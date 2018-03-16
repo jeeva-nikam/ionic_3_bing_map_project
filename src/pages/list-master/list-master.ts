@@ -3,6 +3,7 @@ import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 import { Item } from '../../models/item';
 import { Items } from '../../providers/providers';
+import { Api } from '../../providers/providers';
 
 @IonicPage()
 @Component({
@@ -10,10 +11,22 @@ import { Items } from '../../providers/providers';
   templateUrl: 'list-master.html'
 })
 export class ListMasterPage {
-  currentItems: Item[];
+  currentItems: any;
 
-  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
-    this.currentItems = this.items.query();
+  constructor(private api: Api, public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
+    //this.currentItems = this.items.query();
+    this.getTasks();
+  }
+
+  getTasks(){
+    this.api.get('Tasks').subscribe(
+      data => {
+        console.log(data);      
+        this.currentItems = data;
+      },
+      error => {
+
+      })
   }
 
   /**

@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Task=require('../models/Task');
-debugger
+
 router.get('/:id?',function(req,res,next){
-debugger
+
 if(req.params.id){
 console.log(req);
     Task.getTaskById(req.params.id,function(err,rows){

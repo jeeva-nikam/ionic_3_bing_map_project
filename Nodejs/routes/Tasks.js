@@ -1,42 +1,44 @@
 var express = require('express');
 var router = express.Router();
 var Task=require('../models/Task');
+debugger
 
 router.get('/:id?',function(req,res,next){
 
-if(req.params.id){
-console.log(req);
-    Task.getTaskById(req.params.id,function(err,rows){
-
-        if(err)
-        {
-            res.json(err);
-        }
-        else{
-            res.json(rows);
-        }
+    if(req.params.id){
+    
+        Task.getTaskById(req.params.id,function(err,rows){
+    
+            if(err)
+            {
+                res.json(err);
+            }
+            else{
+                res.json(rows);
+            }
+        });
+    }
+    else{
+    
+     Task.getAllTasks(function(err,rows){
+    
+            if(err)
+            {
+                res.json(err);
+            }
+            else
+            {
+                res.json(rows);
+            }
+     
+        });
+    }
     });
-}
-else{
-
- Task.getAllTasks(function(err,rows){
-
-        if(err)
-        {
-            res.json(err);
-        }
-        else
-        {
-            res.json(rows);
-        }
- 
-    });
-}
-});
 
 
 router.post('/',function(req,res,next){
 
+console.log('in post');
         Task.addTask(req.body,function(err,count){
 
             //console.log(req.body);
@@ -49,7 +51,10 @@ router.post('/',function(req,res,next){
             }
         });
 });
+
+
  router.post('/:id',function(req,res,next){
+     
   Task.deleteAll(req.body,function(err,count){
     if(err)
     {
@@ -77,7 +82,7 @@ router.delete('/:id',function(req,res,next){
         });
 });
 router.put('/:id',function(req,res,next){
-
+    console.log("This is request object", req);
     Task.updateTask(req.params.id,req.body,function(err,rows){
 
         if(err)

@@ -13,16 +13,18 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+ 
   <ion-list>
+     
     <ion-item-sliding *ngFor="let item of currentItems">
-      <button ion-item (click)="openItem(item.Id)">
+      <button ion-item (click)="openItem(item.id)">
         <ion-avatar item-start>
           <ion-icon name="list-box"></ion-icon>
 
         </ion-avatar>
-        <h2>{{item.Title}}</h2>
-        <p>{{item.Status}}</p>
+        <h2>{{item.title}}</h2>
+        <p>{{item.status}}</p>
         <ion-note item-end *ngIf="item.note">{{item.note}}</ion-note>
       </button>
 

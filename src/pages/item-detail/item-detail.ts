@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Api } from '../../providers/providers';
+import { MainPage } from '../pages';
 
 @IonicPage({segment: 'Tasks/:?id'})
 @Component({
@@ -10,23 +11,31 @@ import { Api } from '../../providers/providers';
 })
 export class ItemDetailPage {
   item: any;
+  data1: any = {Id:"",Title:"",Status:"",description:"",addedBy:0,addedOn:"",updatedBy:"",updatedOn:""};
 
   constructor(public navCtrl: NavController, navParams: NavParams,private api: Api) {
-    this.item = navParams.get('item');// || items.defaultItem;
-
+    this.item = navParams.get('item');
     console.log(this.item);
     console.log(navParams);
-    //console.log(items.defaultItem);
-   // console.lo
-   //this.getTaskById('Task', this.item);
+   this.getTaskById('Tasks', this.item);
   }
 
   getTaskById(task, id){
-    this.api.get(task, {id: id}).subscribe(data => {
-      console.log('single task', data);
-    }, error => {
-
-    })
+    var url = task + '/' + id;
+      this.api.get(url).subscribe(data => {
+      console.log('single task', data[0]);
+      this.data1 =  data[0];
+    }, error => {})
   }
+
+  taskDone(){
+    var url = 'Tasks/' +  this.item
+    this.api.put(url, {status: 'done'}, this.item).subscribe(data => {
+      this.navCtrl.push(MainPage);
+      
+    }, error => {})
+  }
+
+ 
 
 }

@@ -1,18 +1,33 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>cdcd</ion-title>
+    <ion-title>{{data1.title}} <small>{{data1.status}}</small></ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<!-- <ion-content>
-  <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.profilePic + ')'">
-  </div>
+<ion-content>
+    <!-- <ion-card><div class="item-detail" padding>
+        <!-- <h2>{{data1.Title}} <small>{{data1.Status}}</small></h2>
+        <p>{{data1.description}}</p>
+       
+      </div></ion-card> -->
+  <!-- <div class="item-profile" text-center #profilePic [style.background-image]="'url(' + item.profilePic + ')'">
+  </div> -->
 
-  <div class="item-detail" padding>
-    <h2>{{item.name}}</h2>
-    <p>{{item.about}}</p>
-  </div>
-</ion-content> -->
+  <ion-card>
+      
+      <ion-card-content>
+          {{data1.description}}
+      </ion-card-content>
+      <ion-fab right bottom>
+          <button title="Click to mark as done." ion-fab ><ion-icon name="thumbs-up" (click)="taskDone()"></ion-icon></button>
+         
+        </ion-fab>
+    </ion-card>
+
+    
+
+  
+</ion-content>

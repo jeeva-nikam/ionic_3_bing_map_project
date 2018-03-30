@@ -2,6 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import { Api } from '../../providers/providers';
+import { MainPage } from '../pages';
+
+//import { ModalPage } from './modal-page-bing-map';
+import { ModalController, Platform, NavParams } from 'ionic-angular';
+
 
 @IonicPage()
 @Component({
@@ -17,11 +23,11 @@ export class ItemCreatePage {
 
   form: FormGroup;
 
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+  constructor(public modalCtrl: ModalController, private api: Api, public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
     this.form = formBuilder.group({
-      profilePic: [''],
-      name: ['', Validators.required],
-      about: ['']
+     // profilePic: [''],
+      title: ['', Validators.required],
+      description : ['', Validators.required],
     });
 
     // Watch the form for changes, and
@@ -32,6 +38,12 @@ export class ItemCreatePage {
 
   ionViewDidLoad() {
 
+  }
+
+  openModal(characterNum) {
+    alert('called');
+    let modal = this.modalCtrl.create(ModalContentPage, characterNum);
+    modal.present();
   }
 
   getPicture() {
@@ -77,7 +89,102 @@ export class ItemCreatePage {
    * back to the presenter.
    */
   done() {
-    if (!this.form.valid) { return; }
-    this.viewCtrl.dismiss(this.form.value);
+    if (!this.form.valid) { return; }else{console.log(this.form)}
+    //this.viewCtrl.dismiss(this.form.value);
+    var body = this.form.value;
+    this.api.post('Tasks', body).subscribe(data => {
+      console.log('single task', data[0]);
+      this.navCtrl.push(MainPage);
+      //data = JSON.parse(data[0]);
+      //this.data1 =  data[0];
+    }, error => {})
   }
+}
+
+
+
+
+
+
+  @Component({
+    template: `
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        Description
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span ion-text color="primary" showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="{{character.image}}">
+          </ion-avatar>
+          <h2>{{character.name}}</h2>
+          <p>{{character.quote}}</p>
+        </ion-item>
+        <ion-item *ngFor="let item of character['items']">
+          {{item.title}}
+          <ion-note item-end>
+            {{item.note}}
+          </ion-note>
+        </ion-item>
+    </ion-list>
+  </ion-content>
+  `
+  })
+
+  export class ModalContentPage {
+    character;
+  
+    constructor(
+      public platform: Platform,
+      public params: NavParams,
+      public viewCtrl: ViewController
+    ) {
+      var characters = [
+        {
+          name: 'Gollum',
+          quote: 'Sneaky little hobbitses!',
+          image: 'assets/img/avatar-gollum.jpg',
+          items: [
+            { title: 'Race', note: 'Hobbit' },
+            { title: 'Culture', note: 'River Folk' },
+            { title: 'Alter Ego', note: 'Smeagol' }
+          ]
+        },
+        {
+          name: 'Frodo',
+          quote: 'Go back, Sam! I\'m going to Mordor alone!',
+          image: 'assets/img/avatar-frodo.jpg',
+          items: [
+            { title: 'Race', note: 'Hobbit' },
+            { title: 'Culture', note: 'Shire Folk' },
+            { title: 'Weapon', note: 'Sting' }
+          ]
+        },
+        {
+          name: 'Samwise Gamgee',
+          quote: 'What we need is a few good taters.',
+          image: 'assets/img/avatar-samwise.jpg',
+          items: [
+            { title: 'Race', note: 'Hobbit' },
+            { title: 'Culture', note: 'Shire Folk' },
+            { title: 'Nickname', note: 'Sam' }
+          ]
+        }
+      ];
+      this.character = characters[this.params.get('charNum')];
+    }
+  
+    dismiss() {
+      this.viewCtrl.dismiss();
+    }
 }

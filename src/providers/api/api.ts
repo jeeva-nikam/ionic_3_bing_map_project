@@ -30,7 +30,12 @@ export class Api {
     return this.http.get(this.url + '/' + endpoint, reqOpts);
   }
 
+  getById(list, id: any){
+    return this.http.get(this.url + '/'+ list +'/'+  id);
+  }
+
   post(endpoint: string, body: any, reqOpts?: any) {
+  
     return this.http.post(this.url + '/' + endpoint, body, reqOpts);
   }
 

@@ -16,12 +16,14 @@ export class ListMasterPage {
   constructor(private api: Api, public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
     //this.currentItems = this.items.query();
     this.getTasks();
+    //console.log('DEFR'.toLowerCase());
   }
 
   getTasks(){
     this.api.get('Tasks').subscribe(
       data => {
-        console.log(data);      
+        //console.log(data);      
+        
         this.currentItems = data;
       },
       error => {
@@ -63,5 +65,29 @@ export class ListMasterPage {
     this.navCtrl.push('ItemDetailPage', {
       item: item
     });
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.api.get('Tasks').subscribe(
+      data => {
+        console.log(data);      
+        
+        this.currentItems = data;
+
+            // set val to the value of the searchbar
+        let val = ev.target.value;
+        
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+          this.currentItems = this.currentItems.filter((item: any) => {
+            return (item.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+          })
+        }
+      },
+      error => {
+
+      })
+    
   }
 }

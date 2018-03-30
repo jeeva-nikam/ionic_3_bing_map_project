@@ -6,5 +6,7 @@ MAKE APK - "ionic cordova build android --prod" NOTE - use "--release" flag to r
 
 DEPLOYING - "https://ionicframework.com/docs/intro/deploying/"
 
+Bing Map keys - ApLMBfuQR03OCFmq9p38JNXjqePXfoSsHepA767XrRAx58m0abLM7Yo7CX4BQ_MT
+
 
 This is change

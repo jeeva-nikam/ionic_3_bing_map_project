@@ -14,7 +14,8 @@ import { Settings } from '../providers/providers';
 import { User } from '../providers/providers';
 import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
-
+import { ModalContentPage } from '../pages/item-create/modalContentPage';
+//import { GeoLocationService } from '../providers/providers';
 // The translate loader needs to know where to load i18n files
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
@@ -38,7 +39,7 @@ export function provideSettings(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp, ModalContentPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +56,7 @@ export function provideSettings(storage: Storage) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp, ModalContentPage
   ],
   providers: [
     Api,
@@ -68,5 +69,6 @@ export function provideSettings(storage: Storage) {
     // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
+  
 })
 export class AppModule { }

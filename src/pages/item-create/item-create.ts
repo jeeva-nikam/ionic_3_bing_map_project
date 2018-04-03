@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { IonicPage, NavController, ViewController } from 'ionic-angular';
 import { Api } from '../../providers/providers';
+import { GeoLocationService} from '../../providers/providers';
 import { MainPage } from '../pages';
 
 //import { ModalPage } from './modal-page-bing-map';
@@ -24,7 +25,8 @@ export class ItemCreatePage {
 
   form: FormGroup;
 
-  constructor(public modalCtrl: ModalController, private api: Api, public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+  constructor( public modalCtrl: ModalController, private api: Api, public navCtrl: NavController, public viewCtrl: ViewController, formBuilder: FormBuilder, public camera: Camera) {
+   
     this.form = formBuilder.group({
      // profilePic: [''],
       title: ['', Validators.required],

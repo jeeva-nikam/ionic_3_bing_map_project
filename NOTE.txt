@@ -8,5 +8,6 @@ DEPLOYING - "https://ionicframework.com/docs/intro/deploying/"
 
 Bing Map keys - ApLMBfuQR03OCFmq9p38JNXjqePXfoSsHepA767XrRAx58m0abLM7Yo7CX4BQ_MT
 
+bing map help = https://stackoverflow.com/questions/37550278/how-to-add-bing-maps-v8-to-angular-2-0
 
 This is change

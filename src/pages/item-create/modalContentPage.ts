@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { IonicPage, NavController, ViewController } from 'ionic-angular';
@@ -7,6 +7,8 @@ import { MainPage } from '../pages';
 
 //import { ModalPage } from './modal-page-bing-map';
 import { ModalController, Platform, NavParams } from 'ionic-angular';
+//import { GeoLocationService } from  '../../providers/providers';
+
 
 
  @Component({
@@ -27,67 +29,51 @@ import { ModalController, Platform, NavParams } from 'ionic-angular';
   <ion-content>
     <ion-list>
         <ion-item>
-          <ion-avatar item-start>
-            <img src="{{character.image}}">
-          </ion-avatar>
-          <h2>{{character.name}}</h2>
-          <p>{{character.quote}}</p>
+            <div class='panel panel-primary'>
+              <div class='panel-heading'>
+                  {{pageTitle}}
+              </div>
+              <div id='myMap' style="width:600vw;height:400vh;"></div> 
+            </div>
         </ion-item>
-        <ion-item *ngFor="let item of character['items']">
-          {{item.title}}
-          <ion-note item-end>
-            {{item.note}}
-          </ion-note>
-        </ion-item>
+       
     </ion-list>
   </ion-content>
   `
   })
 
-  export class ModalContentPage {
+  export class ModalContentPage implements OnInit, AfterViewInit {
     character;
-  
-    constructor(
-      public platform: Platform,
-      public params: NavParams,
-      public viewCtrl: ViewController
-    ) {
-      var characters = [
-        {
-          name: 'Gollum',
-          quote: 'Sneaky little hobbitses!',
-          image: 'assets/img/avatar-gollum.jpg',
-          items: [
-            { title: 'Race', note: 'Hobbit' },
-            { title: 'Culture', note: 'River Folk' },
-            { title: 'Alter Ego', note: 'Smeagol' }
-          ]
-        },
-        {
-          name: 'Frodo',
-          quote: 'Go back, Sam! I\'m going to Mordor alone!',
-          image: 'assets/img/avatar-frodo.jpg',
-          items: [
-            { title: 'Race', note: 'Hobbit' },
-            { title: 'Culture', note: 'Shire Folk' },
-            { title: 'Weapon', note: 'Sting' }
-          ]
-        },
-        {
-          name: 'Samwise Gamgee',
-          quote: 'What we need is a few good taters.',
-          image: 'assets/img/avatar-samwise.jpg',
-          items: [
-            { title: 'Race', note: 'Hobbit' },
-            { title: 'Culture', note: 'Shire Folk' },
-            { title: 'Nickname', note: 'Sam' }
-          ]
-        }
-      ];
-      this.character = characters[this.params.get('charNum')];
+    public pageTitle: string = "Map";
+    @ViewChild('myMap') myMap;
+    
+    constructor( public platform: Platform, public params: NavParams, public viewCtrl: ViewController) {
+//public geoLocationService: GeoLocationService,
+      //  geoLocationService.watchposition().subscribe(data => {
+      //    console.log('location data', data);
+      //  }, error => {
+      //   console.log('location data error', error);
+      //  })
+     
+      
+     
     }
   
     dismiss() {
       this.viewCtrl.dismiss();
+    }
+
+    ngOnInit(){
+
+    }
+
+    ngAfterViewInit(){  
+      var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+          credentials: 'ApLMBfuQR03OCFmq9p38JNXjqePXfoSsHepA767XrRAx58m0abLM7Yo7CX4BQ_MT'
+      });
+      var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+      var layer = new Microsoft.Maps.Layer();
+      layer.add(pushpin);
+      map.layers.insert(layer);
     }
 }
